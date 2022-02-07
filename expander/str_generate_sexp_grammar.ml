@@ -7,7 +7,7 @@ module Type_name = String
 
 module Longident = struct
   include Longident
-  include (val Comparator.make ~compare ~sexp_of_t)
+  include (val Comparator.make ~compare ~sexp_of_t:(Obj.magic sexp_of_t))
 end
 
 let debug_s message values =
@@ -193,7 +193,7 @@ end = struct
                   (fun { loc = _; txt = int } -> sexp_of_int int)
                   implicit
               ]
-          ; List [ Atom "rec_flag"; Ast_traverse.sexp_of#rec_flag rec_flag ]
+          ; List [ Atom "rec_flag"; Obj.magic (Ast_traverse.sexp_of#rec_flag rec_flag) ]
           ]
       ]
   ;;
